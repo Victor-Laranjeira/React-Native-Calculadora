@@ -26,16 +26,26 @@ const Calculator: React.FC = () => {
       case '/':
         handleOperator(digit)
         break
+      case '%':
+        //handleOperator(digit)
+        break
+      case '+/-':
+        //handleOperator(digit)
+        break
+      case ',':
+        handleOperator(digit)
+        break
       default:
         setSumDigit(prevState => prevState + digit)
    }
   }
 
   function handleOperator(digit: string) {
-    const regex = /[+\-*/]/g
+    const regex = /[+\-*/,]/g
     const sumDigitOperators: any[] = sumDigit.match(regex)
     const currentDigitOperators: any[] = digit.match(regex)
     if (sumDigitOperators?.length == 1 && currentDigitOperators.length !== 0) return // Impede uma operação composta
+    if (sumDigitOperators?.includes(',') && digit === ',') return 
     const lastDigit = sumDigit.charAt(sumDigit.length - 1)
     if (
       lastDigit !== '+' &&

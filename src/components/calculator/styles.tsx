@@ -53,6 +53,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ButtonText: {
-    fontSize: 20,
+    fontSize: 25,
   },
 })
