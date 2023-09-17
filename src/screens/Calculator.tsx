@@ -32,6 +32,10 @@ const Calculator: React.FC = () => {
   }
 
   function handleOperator(digit: string) {
+    const regex = /[+\-*/]/g
+    const sumDigitOperators: any[] = sumDigit.match(regex)
+    const currentDigitOperators: any[] = digit.match(regex)
+    if (sumDigitOperators?.length == 1 && currentDigitOperators.length !== 0) return // Impede uma operação composta
     const lastDigit = sumDigit.charAt(sumDigit.length - 1)
     if (
       lastDigit !== '+' &&
@@ -44,11 +48,11 @@ const Calculator: React.FC = () => {
     }
   } 
 
-  function handleNumbers(digits: string) {
+  function handleNumbers(digit: string) {
     const regex = /[+\-*/]/g
-    const operators = digits.match(regex)
+    const operators = digit.match(regex)
 
-    let filteredNumbers: string = digits
+    let filteredNumbers: string = digit
     let splitedNumbers: string[]
     let finalresult: number
 
@@ -58,7 +62,7 @@ const Calculator: React.FC = () => {
         console.log(filteredNumbers)
       }
     } else {
-      filteredNumbers = digits.replace(operators[0], ' ')
+      filteredNumbers = digit.replace(operators[0], ' ')
       splitedNumbers = filteredNumbers.split(' ')
       switch(operators[0]) {
         case '+':
