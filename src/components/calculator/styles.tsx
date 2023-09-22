@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
   },
   ResultArea: {
     height: `${40}%`,
+    backgroundColor: 'white'
   },
   ViewArea: {
     height: `${85}%`,
@@ -55,4 +56,15 @@ export const styles = StyleSheet.create({
   ButtonText: {
     fontSize: 25,
   },
+  historyHeader: {
+    flexDirection: 'row',
+    marginTop: 40,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 10,
+    justifyContent: 'space-between'
+  },
+  GoBackButton: {
+
+  }
 })

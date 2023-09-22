@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CalculatorIndex from '../components/calculator/index'
 
-const Calculator: React.FC = () => {
+function Calculator({ navigation }) {
   const [sumDigit, setSumDigit] = useState<string>('')
   const [finalResult, setFinalResult] = useState<string>('')
 
@@ -36,9 +36,24 @@ const Calculator: React.FC = () => {
         handleOperator(digit)
         break
       default:
+        //handleSumDigit(digit)
         setSumDigit(prevState => prevState + digit)
    }
   }
+
+  // function handleSumDigit(digit: string) {
+  //   let prevDigitState = sumDigit + digit 
+  //   const regex = /[+\-*/,]/g
+  //   const sumDigitOperators: any[] = prevDigitState.match(regex)
+  //   prevDigitState = prevDigitState.replace(sumDigitOperators[0], ' ')
+  //   const splitedNumbers = prevDigitState.split(' ')
+  //   console.log(splitedNumbers)
+  //   if (sumDigitOperators === null && splitedNumbers[0].length <= 11) {
+  //     setSumDigit(prevDigitState)
+  //   } else if (sumDigitOperators !== null && splitedNumbers[1].length <= 11) {
+  //     setSumDigit(prevDigitState)
+  //   }
+  // }
 
   function handleOperator(digit: string) {
     const regex = /[+\-*/,]/g
@@ -99,7 +114,7 @@ const Calculator: React.FC = () => {
   return (
     <CalculatorIndex.Root>
       <CalculatorIndex.ViewArea preview={sumDigit} result={finalResult}>
-        <CalculatorIndex.ViewAreaIcon setRemove={() => {removeLast()}}/>
+        <CalculatorIndex.ViewAreaIcon setRemove={() => {removeLast()}} navigation={navigation}/>
       </CalculatorIndex.ViewArea>
       <CalculatorIndex.ButtonArea>
         <CalculatorIndex.Button digit={'C'} setDigit={(e) => {sumNumber(e)}}/>
