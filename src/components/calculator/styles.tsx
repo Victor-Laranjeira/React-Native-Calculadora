@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
   ButtonText: {
     fontSize: 25,
   },
-  historyHeader: {
+  HistoryHeader: {
     flexDirection: 'row',
     marginTop: 40,
     paddingLeft: 15,
@@ -64,7 +64,16 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'space-between'
   },
-  GoBackButton: {
-
+  HistoryItem: {
+    flexDirection: 'row',
+    padding: 10,
+    height: 50,
+    width: `${100}%`,
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    columnGap: 3
+  },
+  HistoryItemText: {
+    fontSize: 20,
   }
 })

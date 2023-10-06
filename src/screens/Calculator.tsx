@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import CalculatorIndex from '../components/calculator/index'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface History {
+  firstNumber: string
+  secondNumber: string
+  operator: string
+  finalResult: string
+}
 
 function Calculator({ navigation }) {
   const [sumDigit, setSumDigit] = useState<string>('')
@@ -103,7 +111,30 @@ function Calculator({ navigation }) {
           finalresult = Number(splitedNumbers[0]) / Number(splitedNumbers[1])
           break
       }
+      const currentHistory = {
+        firstNumber: splitedNumbers[0],
+        secondNumber: splitedNumbers[1],
+        operator: operators[0],
+        finalResult: String(finalresult)
+      }
+      updateHistory(currentHistory)
       setFinalResult(String(finalresult))
+    }
+  }
+
+  async function updateHistory(currentHistory: History) {
+    try {
+      const allKeys = await AsyncStorage.getAllKeys()
+      if (allKeys !== null) {
+        console.log('aqui')
+        await AsyncStorage.mergeItem('history', JSON.stringify(currentHistory))
+      } else {
+        const jsonValue = JSON.stringify(currentHistory)
+        await AsyncStorage.setItem('history', jsonValue)
+      }
+    }
+    catch (e) {
+      console.log(e)
     }
   }
 
