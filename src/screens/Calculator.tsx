@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CalculatorIndex from '../components/calculator/index'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -41,27 +41,13 @@ function Calculator({ navigation }) {
         //handleOperator(digit)
         break
       case ',':
-        handleOperator(digit)
+        //handleOperator(digit)
         break
       default:
         //handleSumDigit(digit)
         setSumDigit(prevState => prevState + digit)
    }
   }
-
-  // function handleSumDigit(digit: string) {
-  //   let prevDigitState = sumDigit + digit 
-  //   const regex = /[+\-*/,]/g
-  //   const sumDigitOperators: any[] = prevDigitState.match(regex)
-  //   prevDigitState = prevDigitState.replace(sumDigitOperators[0], ' ')
-  //   const splitedNumbers = prevDigitState.split(' ')
-  //   console.log(splitedNumbers)
-  //   if (sumDigitOperators === null && splitedNumbers[0].length <= 11) {
-  //     setSumDigit(prevDigitState)
-  //   } else if (sumDigitOperators !== null && splitedNumbers[1].length <= 11) {
-  //     setSumDigit(prevDigitState)
-  //   }
-  // }
 
   function handleOperator(digit: string) {
     const regex = /[+\-*/,]/g
@@ -82,18 +68,19 @@ function Calculator({ navigation }) {
   } 
 
   function handleNumbers(digit: string) {
-    if (digit !== '') {
-      const regex = /[+\-*/]/g
-      const operators = digit.match(regex)
+    
+    const regex = /[+\-*/]/g
+    const operators = digit.match(regex)
 
-      let filteredNumbers: string = digit
-      let splitedNumbers: string[]
-      let finalresult: number
+    let filteredNumbers: string = digit
+    let splitedNumbers: string[]
+    let finalresult: number
+
+    if (operators !== null) {
 
       if (operators.length > 1) {
         for (let i = 0; i < operators.length; i++) {
           filteredNumbers = filteredNumbers.replace(operators[i], ' ')
-          console.log(filteredNumbers)
         }
       } else {
         filteredNumbers = digit.replace(operators[0], ' ')
