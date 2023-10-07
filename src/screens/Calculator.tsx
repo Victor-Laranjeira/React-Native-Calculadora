@@ -82,52 +82,63 @@ function Calculator({ navigation }) {
   } 
 
   function handleNumbers(digit: string) {
-    const regex = /[+\-*/]/g
-    const operators = digit.match(regex)
+    if (digit !== '') {
+      const regex = /[+\-*/]/g
+      const operators = digit.match(regex)
 
-    let filteredNumbers: string = digit
-    let splitedNumbers: string[]
-    let finalresult: number
+      let filteredNumbers: string = digit
+      let splitedNumbers: string[]
+      let finalresult: number
 
-    if (operators.length > 1) {
-      for (let i = 0; i < operators.length; i++) {
-        filteredNumbers = filteredNumbers.replace(operators[i], ' ')
-        console.log(filteredNumbers)
+      if (operators.length > 1) {
+        for (let i = 0; i < operators.length; i++) {
+          filteredNumbers = filteredNumbers.replace(operators[i], ' ')
+          console.log(filteredNumbers)
+        }
+      } else {
+        filteredNumbers = digit.replace(operators[0], ' ')
+        splitedNumbers = filteredNumbers.split(' ')
+        switch(operators[0]) {
+          case '+':
+            finalresult = Number(splitedNumbers[0]) + Number(splitedNumbers[1])
+            break
+          case '-':
+            finalresult = Number(splitedNumbers[0]) - Number(splitedNumbers[1])
+            break
+          case '*':
+            finalresult = Number(splitedNumbers[0]) * Number(splitedNumbers[1])
+            break
+          case '/':
+            finalresult = Number(splitedNumbers[0]) / Number(splitedNumbers[1])
+            break
+        }
+        const currentHistory = {
+          firstNumber: splitedNumbers[0],
+          secondNumber: splitedNumbers[1],
+          operator: operators[0],
+          finalResult: String(finalresult)
+        }
+        updateHistory(currentHistory)
+        setFinalResult(String(finalresult))
       }
-    } else {
-      filteredNumbers = digit.replace(operators[0], ' ')
-      splitedNumbers = filteredNumbers.split(' ')
-      switch(operators[0]) {
-        case '+':
-          finalresult = Number(splitedNumbers[0]) + Number(splitedNumbers[1])
-          break
-        case '-':
-          finalresult = Number(splitedNumbers[0]) - Number(splitedNumbers[1])
-          break
-        case '*':
-          finalresult = Number(splitedNumbers[0]) * Number(splitedNumbers[1])
-          break
-        case '/':
-          finalresult = Number(splitedNumbers[0]) / Number(splitedNumbers[1])
-          break
-      }
-      const currentHistory = {
-        firstNumber: splitedNumbers[0],
-        secondNumber: splitedNumbers[1],
-        operator: operators[0],
-        finalResult: String(finalresult)
-      }
-      updateHistory(currentHistory)
-      setFinalResult(String(finalresult))
     }
   }
 
   async function updateHistory(currentHistory: History) {
     try {
       const allKeys = await AsyncStorage.getAllKeys()
-      if (allKeys !== null) {
-        console.log('aqui')
-        await AsyncStorage.mergeItem('history', JSON.stringify(currentHistory))
+      if (allKeys.length !== 0) {
+        const storedValues = await AsyncStorage.getItem('history')
+        const parsedStoredValues: History = JSON.parse(storedValues)
+        if (Array.isArray(parsedStoredValues)) {
+          parsedStoredValues.push(currentHistory)
+          await AsyncStorage.setItem('history', JSON.stringify(parsedStoredValues))
+        } else {
+          let newHistoryArray: History[] = []
+          newHistoryArray.push(parsedStoredValues)
+          newHistoryArray.push(currentHistory)
+          await AsyncStorage.setItem('history', JSON.stringify(newHistoryArray))
+        }
       } else {
         const jsonValue = JSON.stringify(currentHistory)
         await AsyncStorage.setItem('history', jsonValue)
