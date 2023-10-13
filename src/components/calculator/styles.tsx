@@ -56,6 +56,9 @@ export const styles = StyleSheet.create({
   ButtonText: {
     fontSize: 25,
   },
+  HistoryScreen: {
+    flexGrow: 1,
+  },
   HistoryHeader: {
     flexDirection: 'row',
     marginTop: 40,
@@ -71,7 +74,9 @@ export const styles = StyleSheet.create({
     width: `${100}%`,
     alignItems: 'center',
     borderBottomWidth: 0.5,
-    columnGap: 3
+    borderBottomColor: '#7D7D7D',
+    columnGap: 3,
+    marginVertical: 1
   },
   HistoryItemText: {
     fontSize: 20,

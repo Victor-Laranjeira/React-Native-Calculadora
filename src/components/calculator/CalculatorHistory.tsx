@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { SafeAreaView, View, TouchableOpacity, Text, FlatList } from 'react-native'
 import { styles } from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import { ThemeContext } from '../../context/ThemeContext';
 
 interface History {
   firstNumber: string
@@ -13,7 +14,7 @@ interface History {
 }
 
 function CalculatorHistory({ navigation }) {
-
+  const { themeObject } = useContext(ThemeContext)
   const [history, setHistory] = useState<History[]>()
 
   useEffect(() => {
@@ -46,13 +47,13 @@ function CalculatorHistory({ navigation }) {
   } 
 
   return (
-    <>
-      <View style={styles.HistoryHeader}>
+    <View style={[styles.HistoryScreen, {backgroundColor: themeObject.primaryBackgroundColor}]}>
+      <View style={[styles.HistoryHeader, {backgroundColor: themeObject.primaryBackgroundColor}]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesomeIcon size={25} color='#2A8BF2' icon={faArrowLeftLong} />
         </TouchableOpacity>
         <TouchableOpacity onPress={clearHistory}>
-          <Text>Limpar histórico</Text>
+          <Text style={{color: themeObject.secondaryTextColor}}>Limpar histórico</Text>
         </TouchableOpacity>
       </View>
       {history !== undefined && (
@@ -61,18 +62,18 @@ function CalculatorHistory({ navigation }) {
           data={history}
           renderItem={({item, index}) => {
             return(
-              <View key={index} style={styles.HistoryItem}>
-                <Text style={styles.HistoryItemText}>{item?.firstNumber}</Text>
-                <Text style={styles.HistoryItemText}>{item?.operator}</Text>
-                <Text style={styles.HistoryItemText}>{item?.secondNumber}</Text>
-                <Text style={styles.HistoryItemText}>=</Text>
-                <Text style={styles.HistoryItemText}>{item?.finalResult}</Text>
+              <View key={index} style={[styles.HistoryItem, {backgroundColor: themeObject.primaryBackgroundColor}]}>
+                <Text style={[styles.HistoryItemText, {color: themeObject.secondaryTextColor}]}>{item?.firstNumber}</Text>
+                <Text style={[styles.HistoryItemText, {color: themeObject.secondaryTextColor}]}>{item?.operator}</Text>
+                <Text style={[styles.HistoryItemText, {color: themeObject.secondaryTextColor}]}>{item?.secondNumber}</Text>
+                <Text style={[styles.HistoryItemText, {color: themeObject.secondaryTextColor}]}>=</Text>
+                <Text style={[styles.HistoryItemText, {color: themeObject.secondaryTextColor}]}>{item?.finalResult}</Text>
               </View>
             )
           }}
         />
       )}
-    </>
+    </View>
   )
 }
 

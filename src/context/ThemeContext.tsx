@@ -1,14 +1,19 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { useColorScheme } from 'react-native';
 import ThemeMode from '../theme/Themes';
-//import ThemeMode from '../themes/themes'
 
 export const ThemeContext = createContext({} as ThemeContextType)
 
 interface ThemeContextType {
   isDarkMode: boolean
-  themeObject: {}
-  //toggleDarkMode: (theme: boolean) => void
+  themeObject: ThemeColors
+}
+
+interface ThemeColors {
+  primaryBackgroundColor: string
+  secondaryBackgroundColor: string
+  textColor: string
+  secondaryTextColor: string
 }
 
 interface ThemeProviderProps {
@@ -16,18 +21,17 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({children}) => {
-  const [isDarkMode, setIsDarkMode] = useState(null)
-  const [themeObject, setThemeObject] = useState({})
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [themeObject, setThemeObject] = useState<ThemeColors>(null)
   const colorScheme = useColorScheme()
 
   useEffect(() => {
     colorScheme === 'light' ? setIsDarkMode(false) : setIsDarkMode(true)
-    setThemeObject(ThemeMode(isDarkMode))
   }, [colorScheme])
 
-  // useEffect(() => {
-  //   setThemeObject(ThemeMode(isDarkMode))
-  // }, [isDarkMode])
+  useEffect(() => {
+    setThemeObject(ThemeMode(isDarkMode))
+  }, [isDarkMode])
 
   return(
     <ThemeContext.Provider value={{ isDarkMode, themeObject }}>
